@@ -1,17 +1,32 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import Routers from "./Routers";
+import "./Styles/index.css";
+import "./Styles/utils.css";
+import "inter-ui/inter.css";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import { GeistProvider, CssBaseline } from "@geist-ui/core";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <GeistProvider>
+      <CssBaseline />
+      <QueryClientProvider client={queryClient}>
+        <Routers />
+      </QueryClientProvider>
+    </GeistProvider>
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
