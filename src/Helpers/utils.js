@@ -1,16 +1,22 @@
 import moment from "moment";
-import "moment/locale/es"
+import weatherConditions from "../Constants/weather_conditions";
+import "moment/locale/es";
+
 moment.locale("es");
 
-
+export const getCurrentTime = () => moment().format("HH:mm a");
 export const DAY_NUMBER = moment().day();
 export const MONTH_NUMBER = moment().month();
+export const DAY_MONTH = moment().date();
 
 export const getDayWeek = () => {
-    console.log(moment.locale("es"));
   return moment.weekdays()[DAY_NUMBER];
 };
 
 export const getMonthName = () => {
   return moment.months()[MONTH_NUMBER];
+};
+
+export const getWeatherFromCode = (code) => {
+  return weatherConditions.find((w) => w.code === code);
 };
