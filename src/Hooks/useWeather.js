@@ -1,18 +1,19 @@
 import { getWeatherInfo } from "../Helpers/http";
 import { useQuery } from "react-query";
-import { getDayWeek, getMonthName, getWeatherFromCode } from "../Helpers/utils";
+import { getDayWeek, getMonthName, getWeatherType } from "../Helpers/utils";
 
-export default function useWeather() {
-  const { data, ...args } = useQuery("locationInfo", getWeatherInfo);
+export default function useWeather(location) {
+  const { data, ...args } = useQuery(
+    ["locationInfo", location],
+    getWeatherInfo
+  );
   const today = getDayWeek();
   const month = getMonthName();
   const isDay = data?.current?.is_day;
-  const weatherConditionObj = getWeatherFromCode(
+  const weatherCondition = getWeatherType(
+    isDay,
     data?.current?.condition?.code
   );
-  const weatherCondition = isDay
-    ? weatherConditionObj?.day
-    : weatherConditionObj?.night;
 
   const ltUpdated = data?.current?.last_updated;
   const lastUpdated = ltUpdated?.substring(0, ltUpdated?.indexOf(" "));

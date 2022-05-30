@@ -17,12 +17,22 @@ const http = axios.create({
 
 http.interceptors.request.use(async (config) => {
   const ip = await getPublicIp();
-  if (ip) {
+
+  if (config.url !== "ip.json") {
+    console.log(config.params);
     config.params = {
       ...config.params,
-      q: ip,
+      q: config?.params?.q || ip,
     };
+  } else {
+    if (ip) {
+      config.params = {
+        ...config.params,
+        q: ip,
+      };
+    }
   }
+
   return config;
 });
 
@@ -43,14 +53,19 @@ export async function getWeather() {
 }
 
 export async function getForecast({ queryKey }) {
-  const [, days] = queryKey;
-  const res = await http.get(`${FORECAST}?days=${days}`);
+  const [, { days, location }] = queryKey;
+  console.log({ days, location });
+  const q = location ? `&q=${location}` : "";
+  let params = `?days=${days}` + q;
+  const res = await http.get(`${FORECAST}${params}`);
   return res.data;
 }
 
-export async function getWeatherInfo() {
-  const p1 = http.get(IP_LOOKUP);
-  const p2 = http.get(REALTIME_WEATHER);
+export async function getWeatherInfo({ queryKey }) {
+  const [, q] = queryKey;
+  const p1 = http.get(IP_LOOKUP, { params: { q } });
+  const p2 = http.get(REALTIME_WEATHER, { params: { q } });
+
   const res = (await Promise.all([p1, p2])).map((obj) => obj.data);
   const data = res.reduce((prev, current) => ({ ...prev, ...current }), {});
   return data;

@@ -9,7 +9,7 @@ import {
   BiWind,
   BiRefresh,
 } from "react-icons/bi";
-import { Text, Grid, Divider, Button, Spinner } from "@geist-ui/core";
+import { Text, Grid, Divider, Button, Spinner, } from "@geist-ui/core";
 import Error from "../Pages/Error";
 import useWeather from "../Hooks/useWeather";
 import css from "../Styles/index.module.scss";
@@ -17,6 +17,8 @@ import cls from "classnames";
 import WheaterForecasts from "../Components/WeatherForecasts";
 
 function App() {
+  const [location, setLocation] = useState("");
+  const [tempMode, setTempMode] = useState("c");
   const {
     data,
     isLoading,
@@ -27,8 +29,7 @@ function App() {
     weatherCondition,
     refetch,
     isRefetching,
-  } = useWeather();
-  const [tempMode, setTempMode] = useState("c");
+  } = useWeather(location);
 
   if (isError) {
     return (
@@ -158,7 +159,7 @@ function App() {
         </Grid>
       </Grid.Container>
 
-      <WheaterForecasts />
+      <WheaterForecasts {...{ location, setLocation }} />
 
       <footer className={css.footer}>
         <Text className="d-flex align-items-center text-muted me-3" small>

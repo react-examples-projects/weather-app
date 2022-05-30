@@ -20,3 +20,12 @@ export const getMonthName = () => {
 export const getWeatherFromCode = (code) => {
   return weatherConditions.find((w) => w.code === code);
 };
+
+export const getWeatherType = (isDay, code) => {
+  const weatherConditionObj = getWeatherFromCode(code);
+  const weatherCondition = isDay
+    ? weatherConditionObj?.day
+    : weatherConditionObj?.night;
+    
+  return weatherCondition;
+};

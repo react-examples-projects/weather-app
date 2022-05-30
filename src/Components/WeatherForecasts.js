@@ -1,14 +1,18 @@
 import useForeCasts from "../Hooks/useForeCasts";
+import WeatherInfo from "./WatherInfo";
 import css from "../Styles/index.module.scss";
-import { Text } from "@geist-ui/core";
+import cls from "classnames";
+import { Text, Input, Grid, Button } from "@geist-ui/core";
 import { FiThermometer } from "react-icons/fi";
 import { BiWater, BiWind } from "react-icons/bi";
 import { WiNightCloudy } from "react-icons/wi";
 import { useState } from "react";
+import { getWeatherType } from "../Helpers/utils";
 
-export default function WheaterForecasts() {
+export default function WheaterForecasts({ location, setLocation }) {
+  const [locationTemp, setLocationTemp] = useState(location);
   const [days, setDays] = useState(5);
-  const { data, isLoading, isError, error } = useForeCasts(days);
+  const { data, isLoading, isError, error } = useForeCasts({ days, location });
   console.log(data?.forecast?.forecastday);
 
   if (isError) {
@@ -24,11 +28,49 @@ export default function WheaterForecasts() {
       <Text className="mt-4 fw-bolder" h3>
         Pronóstico
       </Text>
+
+      <Grid.Container className="mb-2" gap={1}>
+        <Grid xs={8} sm={8} md={8} lg={8}>
+          <Input
+            label="Días"
+            placeholder="5"
+            htmlType="number"
+            width="100%"
+            value={days}
+            min={1}
+            max={100}
+            onChange={(e) => setDays(e.target.value)}
+          />
+        </Grid>
+        <Grid xs={16} sm={16} md={16} lg={16}>
+          <Input
+            label="Ubicación"
+            placeholder="Colombia"
+            value={locationTemp}
+            onChange={(e) => setLocationTemp(e.target.value)}
+            width="100%"
+          />
+        </Grid>
+        <Grid xs={24} sm={24} md={24} lg={24}>
+          <Button
+            type="success-light"
+            className="ms-auto"
+            scale={0.8}
+            onClick={() => setLocation(locationTemp)}
+          >
+            Buscar
+          </Button>
+        </Grid>
+      </Grid.Container>
+
       <ul className={css.weatherList}>
         {data?.forecast?.forecastday?.map((forecastday, index) => {
           return (
             <li className={css.weatherDay} key={index}>
-              <div className={css.weatherInfo} style={{ marginLeft: "-1rem" }}>
+              <div
+                className={cls(css.weatherInfo, css.nohover)}
+                style={{ marginLeft: "-1rem" }}
+              >
                 <img
                   src={forecastday.day.condition.icon}
                   width="40"
@@ -40,34 +82,29 @@ export default function WheaterForecasts() {
               </div>
 
               <div className="w-100 d-flex align-items-center">
-                <div className={css.weatherInfo}>
-                  <Text className="m-0 me-1" small>
-                    {forecastday.day.condition.text}
-                  </Text>
+                <WeatherInfo
+                  text={getWeatherType(true, forecastday.day.condition.code)}
+                  icon={WiNightCloudy}
+                  tooltipText="Tipo de clima"
+                  styleIcon={{ fontSize: "1.2em" }}
+                />
 
-                  <WiNightCloudy style={{ fontSize: "1.2em" }} />
-                </div>
+                <WeatherInfo
+                  text={`${forecastday.day.maxtemp_c}°`}
+                  tooltipText="Temperatura del clima"
+                  icon={FiThermometer}
+                />
 
-                <div className={css.weatherInfo}>
-                  <Text className="m-0 me-1" small>
-                    {forecastday.day.maxtemp_c}°
-                  </Text>
-                  <FiThermometer style={{ fontSize: "0.875em" }} />
-                </div>
-
-                <div className={css.weatherInfo}>
-                  <Text className="m-0 me-1" small>
-                    {forecastday.day.maxwind_kph}km/h
-                  </Text>
-                  <BiWind style={{ fontSize: "0.875em" }} />
-                </div>
-
-                <div className={css.weatherInfo}>
-                  <Text className="m-0 me-1" small>
-                    ≈{forecastday.day.avghumidity}%
-                  </Text>
-                  <BiWater style={{ fontSize: "0.875em" }} />
-                </div>
+                <WeatherInfo
+                  text={`${forecastday.day.maxwind_kph}km/h`}
+                  tooltipText="Velocidad del viento"
+                  icon={BiWind}
+                />
+                <WeatherInfo
+                  tooltipText="Porcentaje de humedad"
+                  text={`≈${forecastday.day.avghumidity}%`}
+                  icon={BiWater}
+                />
               </div>
             </li>
           );
