@@ -16,3 +16,29 @@
     width: 100%;
     padding: 1rem;
 }
+
+.weatherList {
+    padding: 0;
+    margin: 0;
+}
+
+.weatherDay {
+    background: rgba(238, 238, 238, 0.637);
+    border-radius: 5px;
+    padding: 0.5rem 1.5rem;
+
+    &:hover {
+        background: #eee;
+    }
+
+    &::before {
+        display: none;
+    }
+}
+
+.weatherInfo {
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    margin-right: 1rem;
+}

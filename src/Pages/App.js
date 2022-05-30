@@ -14,7 +14,7 @@ import Error from "../Pages/Error";
 import useWeather from "../Hooks/useWeather";
 import css from "../Styles/index.module.scss";
 import cls from "classnames";
-import WheaterForecasts from "../Components/WheaterForecasts";
+import WheaterForecasts from "../Components/WeatherForecasts";
 
 function App() {
   const {

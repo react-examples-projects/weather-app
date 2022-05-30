@@ -4,7 +4,7 @@ import {
   API_WEATHER_URL,
   REALTIME_WEATHER,
   IP_LOOKUP,
-  FORECAST
+  FORECAST,
 } from "../config";
 
 const http = axios.create({
@@ -19,6 +19,7 @@ http.interceptors.request.use(async (config) => {
   const ip = await getPublicIp();
   if (ip) {
     config.params = {
+      ...config.params,
       q: ip,
     };
   }
@@ -41,8 +42,9 @@ export async function getWeather() {
   return res.data;
 }
 
-export async function getForecast(){
-  const res = await http.get(FORECAST);
+export async function getForecast({ queryKey }) {
+  const [, days] = queryKey;
+  const res = await http.get(`${FORECAST}?days=${days}`);
   return res.data;
 }
 
@@ -51,5 +53,5 @@ export async function getWeatherInfo() {
   const p2 = http.get(REALTIME_WEATHER);
   const res = (await Promise.all([p1, p2])).map((obj) => obj.data);
   const data = res.reduce((prev, current) => ({ ...prev, ...current }), {});
-  return data
+  return data;
 }
