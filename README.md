@@ -1,6 +1,6 @@
 # Aplicación del clima
 
-Permite ver de forma resumida el clima en diversas ciudadesdel mundo
+Permite ver de forma resumida el clima en diversas ciudades del mundo
 
 >**Este proyecto fue desarrollado para la hackatoon de [midudev](https://www.twitch.tv/midudev)**
 
