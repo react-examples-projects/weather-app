@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import Routers from "./Routers";
+import 'react-loading-skeleton/dist/skeleton.css'
 import "./Styles/index.scss";
 import "./Styles/utils.css";
 import "inter-ui/inter.css";

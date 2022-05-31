@@ -12,7 +12,13 @@ export default function WeatherInfo({
   ...args
 }) {
   return (
-    <Tooltip text={tooltipText}>
+    <Tooltip
+      text={
+        <Text className="m-0" small>
+          {tooltipText}
+        </Text>
+      }
+    >
       <div className={cls(css.weatherInfo, className)} {...args}>
         <Text className="m-0 me-1" small>
           {text}

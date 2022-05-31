@@ -1,11 +1,19 @@
 import { getWeatherInfo } from "../Helpers/http";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { getDayWeek, getMonthName, getWeatherType } from "../Helpers/utils";
 
 export default function useWeather(location) {
+  const queryClient = useQueryClient();
+  console.log(queryClient.getQueriesData("locationInfo"));
+
   const { data, ...args } = useQuery(
     ["locationInfo", location],
-    getWeatherInfo
+    getWeatherInfo,
+    {
+      initialData() {
+        return;
+      },
+    }
   );
   const today = getDayWeek();
   const month = getMonthName();

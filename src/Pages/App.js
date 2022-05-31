@@ -33,6 +33,8 @@ function App() {
     isRefetching,
   } = useWeather(location);
 
+  console.log({data})
+
   if (isError) {
     return (
       <>
@@ -43,7 +45,7 @@ function App() {
     );
   }
 
-  if (isLoading) {
+  if (isLoading && !data) {
     return (
       <>
         <Text className="fw-bold" h2>

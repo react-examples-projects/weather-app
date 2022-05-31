@@ -1,5 +1,5 @@
 import useForeCasts from "../Hooks/useForeCasts";
-import WeatherInfo from "./WatherInfo";
+import WeatherInfo from "./WeatherInfo";
 import css from "../Styles/index.module.scss";
 import cls from "classnames";
 import { Text, Input, Grid, Button } from "@geist-ui/core";
@@ -8,19 +8,16 @@ import { BiWater, BiWind } from "react-icons/bi";
 import { WiNightCloudy } from "react-icons/wi";
 import { useState, memo } from "react";
 import { getWeatherType } from "../Helpers/utils";
+import WeatherForecastLoader from "./Loaders/WeatherForecastLoader";
 
-function WheaterForecasts({ location, setLocation }) {
+function WeaterForecasts({ location, setLocation }) {
   const [locationTemp, setLocationTemp] = useState(location);
   const [days, setDays] = useState(5);
   const { data, isLoading, isError, error } = useForeCasts({ days, location });
 
-  if (isError) {
-    return <Text>Hubo un error al cargar los pronosticos</Text>;
-  }
-
-  if (isLoading) {
-    return <Text>Cargando Pronosticos...</Text>;
-  }
+  if (isError) return <Text>Hubo un error al cargar los pronosticos</Text>;
+  
+  if (isLoading) return <WeatherForecastLoader />;
 
   return (
     <div>
@@ -113,4 +110,4 @@ function WheaterForecasts({ location, setLocation }) {
   );
 }
 
-export default memo(WheaterForecasts);
+export default memo(WeaterForecasts);
