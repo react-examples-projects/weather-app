@@ -16,15 +16,20 @@ const http = axios.create({
 });
 
 http.interceptors.request.use(async (config) => {
+  const fullUrl = config.baseURL + config.url;
+  const URL = new URLSearchParams(fullUrl);
+  const q = config.params?.q || URL.get("q");
   let ip = sessionStorage.getItem("ip");
+
   if (!ip) {
     ip = await getPublicIp();
     sessionStorage.setItem("ip", ip);
   }
 
-  const fullUrl = config.baseURL + config.url;
-  const URL = new URLSearchParams(fullUrl);
-  const q = URL.get("q");
+  if (config.url === "ip.json") {
+    config.params = { q: ip };
+    return config;
+  }
 
   if (!q) config.params = { q: ip };
 
@@ -49,7 +54,6 @@ export async function getWeather() {
 
 export async function getForecast({ queryKey }) {
   const [, { days, location }] = queryKey;
-  console.log({ days, location });
   const q = location ? `&q=${location}` : "";
   let params = `?days=${days}` + q;
   const res = await http.get(`${FORECAST}${params}`);

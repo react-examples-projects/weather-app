@@ -1,16 +1,17 @@
 .container {
-    max-width: 500px;
+    max-width: 600px;
     width: 100%;
     margin: 0 auto;
     padding: 0 1rem;
     padding-top: 2rem;
+    padding-bottom: 3rem;
 }
 
 .footer {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -20,7 +21,6 @@
 .weatherList {
     padding: 0;
     margin: 0;
-
 }
 
 .weatherDay {

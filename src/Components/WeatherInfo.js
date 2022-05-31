@@ -1,6 +1,6 @@
 import css from "../Styles/index.module.scss";
-import { Text, Tooltip } from "@geist-ui/core";
 import cls from "classnames";
+import { Text, Tooltip } from "@geist-ui/core";
 
 export default function WeatherInfo({
   className,
