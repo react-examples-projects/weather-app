@@ -10,9 +10,12 @@ import ForecastdayError from "./Errors/ForecastdayError";
 function WeaterForecasts({ location, setLocation }) {
   const [locationTemp, setLocationTemp] = useState(location);
   const [days, setDays] = useState(3);
-  const { data, isLoading, isError, refetch } = useForeCasts({ days, location });
+  const { data, isLoading, isError, refetch, error } = useForeCasts({
+    days,
+    location,
+  });
 
-  if (isError) return <ForecastdayError refetch={refetch}/>;
+  if (isError) return <ForecastdayError refetch={refetch} />;
 
   if (isLoading) return <WeatherForecastLoader />;
 

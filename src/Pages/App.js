@@ -18,6 +18,7 @@ import cls from "classnames";
 import WheaterForecasts from "../Components/WeatherForecasts";
 import AppLoader from "../Components/Loaders/AppLoader";
 import LocationInfoError from "../Components/Errors/LocationInfoError";
+import LocationInfoNotFoundError from "../Components/Errors/LocationInfoNotFoundError";
 
 function App() {
   const [location, setLocation] = useState("");
@@ -27,6 +28,7 @@ function App() {
     data,
     isLoading,
     isError,
+    error,
     today,
     month,
     lastUpdated,
@@ -35,7 +37,11 @@ function App() {
     isRefetching,
   } = useWeather(location);
 
-  if (isError) return <LocationInfoError refetch={refetch}/>;
+  if (error?.response?.data?.error?.code == 1006) {
+    return <LocationInfoNotFoundError />;
+  }
+
+  if (isError) return <LocationInfoError refetch={refetch} />;
 
   if (isLoading) return <AppLoader />;
 
@@ -152,7 +158,7 @@ function App() {
             </Text>
             <Text className="d-flex align-items-center" small>
               <BiCurrentLocation className="me-2" />
-              Reigión: {data?.location.region}
+              Región: {data?.location.region}
             </Text>
           </div>
         </Grid>

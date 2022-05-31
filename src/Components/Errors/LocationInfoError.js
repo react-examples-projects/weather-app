@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Text, Button } from "@geist-ui/core";
 import { BiEditAlt } from "react-icons/bi";
 
-export default function LocationInfoError({refetch}) {
+export default function LocationInfoError({ refetch }) {
   return (
     <div
       className="text-center container mt-5 d-flex flex-column align-content-center justify-content-center"
@@ -31,12 +31,11 @@ export default function LocationInfoError({refetch}) {
         </Link>
       </Text>
       <div className="d-flex w-100 justify-content-center">
-        <Button
-          onClick={refetch}
-          type="success"
-          className="me-2"
-        >
+        <Button onClick={refetch} type="success" className="me-2">
           Intentar de nuevo
+        </Button>
+        <Button onClick={() => window.location.reload()} className="me-2">
+          Refrescar Página
         </Button>
       </div>
     </div>
