@@ -1,7 +1,7 @@
 import Skeleton from "react-loading-skeleton";
 import css from "../../Styles/index.module.scss";
-
 import { Grid } from "@geist-ui/core";
+
 export default function WeatherForecastLoader() {
   return (
     <div className="w-100 mt-4 opacity-gradient ">
@@ -23,6 +23,12 @@ export default function WeatherForecastLoader() {
           <Skeleton width={150} height={36} containerClassName="mb-2 ms-auto" />
         </Grid>
       </Grid.Container>
+
+      <Skeleton
+        height={250}
+        containerClassName="w-100"
+        className="mb-2"
+      />
 
       <div className={css.weatherDayLoader}>
         {Array(5)

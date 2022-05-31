@@ -7,15 +7,16 @@ import {
   BiCloud,
   BiWater,
   BiWind,
-  BiRefresh,
+  BiRefresh,  
 } from "react-icons/bi";
+import { useMemo } from "react";
 import { Text, Grid, Divider, Button, Spinner } from "@geist-ui/core";
 import Error from "../Pages/Error";
 import useWeather from "../Hooks/useWeather";
 import css from "../Styles/index.module.scss";
 import cls from "classnames";
 import WheaterForecasts from "../Components/WeatherForecasts";
-import { useMemo } from "react";
+import AppLoader from "../Components/Loaders/AppLoader";
 
 function App() {
   const [location, setLocation] = useState("");
@@ -33,8 +34,6 @@ function App() {
     isRefetching,
   } = useWeather(location);
 
-  console.log({data})
-
   if (isError) {
     return (
       <>
@@ -44,13 +43,11 @@ function App() {
       </>
     );
   }
-
+//isLoading && !data
   if (isLoading && !data) {
     return (
       <>
-        <Text className="fw-bold" h2>
-          Consultando...
-        </Text>
+        <AppLoader />
       </>
     );
   }
@@ -153,11 +150,15 @@ function App() {
             </Text>
             <Text className="d-flex align-items-center" small>
               <BiWater className="me-2" />
-              Humedad: {data?.current.humidity}%.
+              Humedad: {data?.current.humidity}%
             </Text>
             <Text className="d-flex align-items-center" small>
               <BiWind className="me-2" />
-              Viento: a {data?.current.wind_kph} km/h.
+              Viento: a {data?.current.wind_kph} km/h
+            </Text>
+            <Text className="d-flex align-items-center" small>
+              <BiWorld className="me-2" />
+              País: {data?.location.country}
             </Text>
           </div>
         </Grid>

@@ -7,6 +7,19 @@
     padding-bottom: 3rem;
 }
 
+.loaderSkeletonContainer {
+    display: flex;
+    flex-direction: column;
+
+    >span {
+        display: block;
+        margin: 0;
+        padding: 0;
+        margin-bottom: -1.2rem;
+        line-height: normal;
+    }
+}
+
 .footer {
     display: flex;
     justify-content: flex-end;
@@ -53,4 +66,14 @@
     max-height: 400px;
     overflow-y: auto;
     padding-right: 0.5rem;
+}
+
+.loaderSkeletonFooter {
+    @extend .footer;
+    right: 0;
+    left: unset;
+    padding: 0;
+    margin-right: 1rem;
+    margin-bottom: 1.2rem;
+    width: auto;
 }
