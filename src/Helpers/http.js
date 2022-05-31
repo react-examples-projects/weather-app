@@ -16,22 +16,17 @@ const http = axios.create({
 });
 
 http.interceptors.request.use(async (config) => {
-  const ip = await getPublicIp();
-
-  if (config.url !== "ip.json") {
-    console.log(config.params);
-    config.params = {
-      ...config.params,
-      q: config?.params?.q || ip,
-    };
-  } else {
-    if (ip) {
-      config.params = {
-        ...config.params,
-        q: ip,
-      };
-    }
+  let ip = sessionStorage.getItem("ip");
+  if (!ip) {
+    ip = await getPublicIp();
+    sessionStorage.setItem("ip", ip);
   }
+
+  const fullUrl = config.baseURL + config.url;
+  const URL = new URLSearchParams(fullUrl);
+  const q = URL.get("q");
+
+  if (!q) config.params = { q: ip };
 
   return config;
 });

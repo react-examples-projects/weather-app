@@ -6,14 +6,13 @@ import { Text, Input, Grid, Button } from "@geist-ui/core";
 import { FiThermometer } from "react-icons/fi";
 import { BiWater, BiWind } from "react-icons/bi";
 import { WiNightCloudy } from "react-icons/wi";
-import { useState } from "react";
+import { useState, memo } from "react";
 import { getWeatherType } from "../Helpers/utils";
 
-export default function WheaterForecasts({ location, setLocation }) {
+function WheaterForecasts({ location, setLocation }) {
   const [locationTemp, setLocationTemp] = useState(location);
   const [days, setDays] = useState(5);
   const { data, isLoading, isError, error } = useForeCasts({ days, location });
-  console.log(data?.forecast?.forecastday);
 
   if (isError) {
     return <Text>Hubo un error al cargar los pronosticos</Text>;
@@ -113,3 +112,5 @@ export default function WheaterForecasts({ location, setLocation }) {
     </div>
   );
 }
+
+export default memo(WheaterForecasts);
