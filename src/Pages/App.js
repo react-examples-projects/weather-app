@@ -17,6 +17,7 @@ import css from "../Styles/index.module.scss";
 import cls from "classnames";
 import WheaterForecasts from "../Components/WeatherForecasts";
 import AppLoader from "../Components/Loaders/AppLoader";
+import LocationInfoError from "../Components/Errors/LocationInfoError";
 
 function App() {
   const [location, setLocation] = useState("");
@@ -34,17 +35,10 @@ function App() {
     isRefetching,
   } = useWeather(location);
 
-  if (isError) {
-    return (
-      <>
-        <Text className="fw-bold" h2>
-          Ocurrió un error
-        </Text>
-      </>
-    );
-  }
-  if (isLoading) return <AppLoader />
-  
+  if (isError) return <LocationInfoError refetch={refetch}/>;
+
+  if (isLoading) return <AppLoader />;
+
   return (
     <div className={cls(css.container)}>
       <Grid.Container>

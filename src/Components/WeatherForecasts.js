@@ -5,13 +5,14 @@ import WeatherForecastItem from "./WeatherForecastItem";
 import css from "../Styles/index.module.scss";
 import { Text, Input, Grid, Button } from "@geist-ui/core";
 import { useState, memo } from "react";
+import ForecastdayError from "./Errors/ForecastdayError";
 
 function WeaterForecasts({ location, setLocation }) {
   const [locationTemp, setLocationTemp] = useState(location);
   const [days, setDays] = useState(3);
-  const { data, isLoading, isError, error } = useForeCasts({ days, location });
+  const { data, isLoading, isError, refetch } = useForeCasts({ days, location });
 
-  if (isError) return <Text>Hubo un error al cargar los pronosticos</Text>;
+  if (isError) return <ForecastdayError refetch={refetch}/>;
 
   if (isLoading) return <WeatherForecastLoader />;
 
