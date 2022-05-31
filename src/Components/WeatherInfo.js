@@ -9,10 +9,12 @@ export default function WeatherInfo({
   tooltipText,
   children,
   styleIcon,
+  classNameTooltip,
   ...args
 }) {
   return (
     <Tooltip
+      className={classNameTooltip}
       text={
         <Text className="m-0" small>
           {tooltipText}

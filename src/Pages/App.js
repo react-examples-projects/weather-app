@@ -7,7 +7,7 @@ import {
   BiCloud,
   BiWater,
   BiWind,
-  BiRefresh,  
+  BiRefresh,
 } from "react-icons/bi";
 import { useMemo } from "react";
 import { Text, Grid, Divider, Button, Spinner } from "@geist-ui/core";
@@ -43,19 +43,12 @@ function App() {
       </>
     );
   }
-//isLoading && !data
-  if (isLoading && !data) {
-    return (
-      <>
-        <AppLoader />
-      </>
-    );
-  }
-
+  if (isLoading) return <AppLoader />
+  
   return (
     <div className={cls(css.container)}>
       <Grid.Container>
-        <Grid xs={12} sm={12} md={12} lg={12} xl={12}>
+        <Grid xs={24} sm={24} md={12} lg={12} xl={12}>
           <div className="d-flex align-items-center">
             <img alt="Current Temperature" src={data?.current.condition.icon} />
             <div className="position-relative d-inline-flex">
@@ -158,7 +151,14 @@ function App() {
             </Text>
             <Text className="d-flex align-items-center" small>
               <BiWorld className="me-2" />
-              País: {data?.location.country}
+              País:
+              <Text className="fw-bold ms-1" b>
+                {data?.location.country}
+              </Text>
+            </Text>
+            <Text className="d-flex align-items-center" small>
+              <BiCurrentLocation className="me-2" />
+              Reigión: {data?.location.region}
             </Text>
           </div>
         </Grid>

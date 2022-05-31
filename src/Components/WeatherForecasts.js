@@ -1,6 +1,6 @@
 import useForeCasts from "../Hooks/useForeCasts";
 import WeatherForecastLoader from "./Loaders/WeatherForecastLoader";
-import WeatherChart from "./WeatherChart";
+import WeatherChart from "./Charts/WeatherChart";
 import WeatherForecastItem from "./WeatherForecastItem";
 import css from "../Styles/index.module.scss";
 import { Text, Input, Grid, Button } from "@geist-ui/core";
@@ -36,8 +36,8 @@ function WeaterForecasts({ location, setLocation }) {
         </Grid>
         <Grid xs={16} sm={16} md={16} lg={16}>
           <Input
-            label="Ubicación"
-            placeholder="Colombia"
+            label="Ciudad"
+            placeholder="Madrid"
             value={locationTemp}
             onChange={(e) => setLocationTemp(e.target.value)}
             width="100%"

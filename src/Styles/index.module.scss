@@ -29,6 +29,12 @@
     left: 0;
     width: 100%;
     padding: 1rem;
+
+    @media screen and (max-width:820px) {
+        position: static;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 }
 
 .weatherList {
@@ -47,6 +53,19 @@
 
     &::before {
         display: none;
+    }
+
+
+}
+
+.weatherInfoList {
+    @media screen and (max-width:650px) {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+
+        .weatherInfo:last-child {
+            margin-left: 0;
+        }
     }
 }
 

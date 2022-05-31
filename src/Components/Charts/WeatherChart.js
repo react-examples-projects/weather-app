@@ -31,7 +31,13 @@ export default function WeatherChart({ data }) {
 
   return (
     <div className="w-100">
-      <Chart options={op.options} series={op.series} type="bar" width="100%" height={250}/>
+      <Chart
+        options={op.options}
+        series={op.series}
+        type="bar"
+        width="100%"
+        height={250}
+      />
     </div>
   );
 }
