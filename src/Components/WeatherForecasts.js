@@ -2,17 +2,18 @@ import useForeCasts from "../Hooks/useForeCasts";
 import WeatherForecastLoader from "./Loaders/WeatherForecastLoader";
 import WeatherChart from "./Charts/WeatherChart";
 import WeatherForecastItem from "./WeatherForecastItem";
+import ForecastdayError from "./Errors/ForecastdayError";
 import css from "../Styles/index.module.scss";
 import { Text, Input, Grid, Button } from "@geist-ui/core";
 import { useState, memo } from "react";
-import ForecastdayError from "./Errors/ForecastdayError";
 
-function WeaterForecasts({ location, setLocation }) {
+function WeaterForecasts({ location, setLocation,locationMethod }) {
   const [locationTemp, setLocationTemp] = useState(location);
   const [days, setDays] = useState(3);
-  const { data, isLoading, isError, refetch, error } = useForeCasts({
+  const { data, isLoading, isError, refetch } = useForeCasts({
     days,
     location,
+    locationMethod
   });
 
   if (isError) return <ForecastdayError refetch={refetch} />;
@@ -21,8 +22,8 @@ function WeaterForecasts({ location, setLocation }) {
 
   return (
     <div>
-      <Text className="mt-4 fw-bolder" h3>
-        Pronóstico
+      <Text className="mt-4" h4>
+        Búsqueda
       </Text>
 
       <Grid.Container gap={1}>
@@ -39,7 +40,7 @@ function WeaterForecasts({ location, setLocation }) {
           />
         </Grid>
         <Grid xs={16} sm={16} md={16} lg={16}>
-          <Input
+          <Input 
             label="Ciudad"
             placeholder="Madrid"
             value={locationTemp}
@@ -61,6 +62,9 @@ function WeaterForecasts({ location, setLocation }) {
 
       <WeatherChart data={data?.forecast?.forecastday} />
 
+      <Text className="mt-4" h4>
+        Pronóstico para {data?.location.name}
+      </Text>
       <ul className={css.weatherList}>
         {data?.forecast?.forecastday?.map((forecastday, key) => (
           <WeatherForecastItem {...{ forecastday, key }} />

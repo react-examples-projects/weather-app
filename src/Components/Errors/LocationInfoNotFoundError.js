@@ -5,7 +5,7 @@ export default function LocationInfoNotFoundError() {
     <div
       className="text-center container mt-5 d-flex flex-column align-content-center justify-content-center"
       style={{ maxWidth: "600px" }}
-    >
+    > 
       <img
         alt="Ubicación no encontrada"
         src="./images/forecastday_notfound.svg"

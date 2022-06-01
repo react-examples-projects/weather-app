@@ -7,7 +7,7 @@ export default function WeatherForecastLoader() {
     <div className="w-100 mt-4 opacity-gradient ">
       <Skeleton
         width="150px"
-        height={28}
+        height={28} 
         containerClassName="w-100"
         className="mb-2"
       />

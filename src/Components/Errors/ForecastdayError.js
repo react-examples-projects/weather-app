@@ -7,7 +7,7 @@ export default function ForecastdayError({ refetch }) {
     <div
       className="text-center container mb-5 d-flex flex-column align-content-center justify-content-center"
       style={{ maxWidth: "600px" }}
-    >
+    > 
       <img
         alt="Ocurrió un error"
         src="./images/forecastday_error.svg"

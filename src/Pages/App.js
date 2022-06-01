@@ -10,7 +10,7 @@ import {
   BiRefresh,
 } from "react-icons/bi";
 import { useMemo } from "react";
-import { Text, Grid, Divider, Button, Spinner } from "@geist-ui/core";
+import { Text, Grid, Divider, Button, Spinner, Select } from "@geist-ui/core";
 import Error from "../Pages/Error";
 import useWeather from "../Hooks/useWeather";
 import css from "../Styles/index.module.scss";
@@ -22,6 +22,7 @@ import LocationInfoNotFoundError from "../Components/Errors/LocationInfoNotFound
 
 function App() {
   const [location, setLocation] = useState("");
+  const [locationMethod, setLocationMethod] = useState("geo");
   const [tempMode, setTempMode] = useState("c");
   const locationObj = useMemo(() => ({ location, setLocation }), [location]);
   const {
@@ -35,11 +36,10 @@ function App() {
     weatherCondition,
     refetch,
     isRefetching,
-  } = useWeather(location);
+  } = useWeather({ location, locationMethod });
 
-  if (error?.response?.data?.error?.code == 1006) {
+  if (error?.response?.data?.error?.code === 1006)
     return <LocationInfoNotFoundError />;
-  }
 
   if (isError) return <LocationInfoError refetch={refetch} />;
 
@@ -48,8 +48,8 @@ function App() {
   return (
     <div className={cls(css.container)}>
       <Grid.Container>
-        <Grid xs={24} sm={24} md={12} lg={12} xl={12}>
-          <div className="d-flex align-items-center">
+        <Grid xs={24} sm={12} md={12} lg={12} xl={12} className="flex-column">
+          <div className="w-100 d-flex align-items-center">
             <img alt="Current Temperature" src={data?.current.condition.icon} />
             <div className="position-relative d-inline-flex">
               <Text className="d-flex align-items-center m-0 me-3 fw-bold" h2>
@@ -94,49 +94,8 @@ function App() {
               </div>
             </div>
           </div>
-        </Grid>
 
-        <Grid
-          xs={24}
-          sm={12}
-          md={12}
-          lg={12}
-          xl={12}
-          className="flex-column"
-          style={{
-            transform: "translateY(2rem)",
-          }}
-        >
-          <div className="d-flex align-items-center justify-content-end w-100 text-end">
-            <BiCurrentLocation
-              className="me-2"
-              style={{ fontSize: "1.3rem" }}
-            />
-            <Text className="m-0 me-2" h4>
-              {data.country_name},
-            </Text>
-            <Text className="m-0" title={data.continent_name} h4>
-              {data.continent_code}
-            </Text>
-          </div>
-
-          <div className="w-100 text-end text-muted">
-            <Text className="m-0 me-1 text-capitalize d-inline-block">
-              {today}
-            </Text>
-            <Text className="m-0 me-2 d-inline-block">{DAY_MONTH},</Text>
-            <Text className="m-0 text-capitalize d-inline-block">{month}</Text>
-            <Text className="m-0 ms-2 text-capitalize d-inline-block">
-              {getCurrentTime()}
-            </Text>
-            <Text className="d-block text-capitalize m-0">
-              {weatherCondition}
-            </Text>
-          </div>
-        </Grid>
-
-        <Grid xs={24} sm={24} md={24} lg={24} xl={24}>
-          <div className="d-flex flex-column w-100 text-muted ms-3">
+          <div className="d-flex flex-column w-100 text-muted mt-4 ms-3">
             <Text className="d-flex align-items-center" small>
               <BiCloud className="me-2" />
               Nubes: {data?.current.cloud}%
@@ -158,13 +117,67 @@ function App() {
             </Text>
             <Text className="d-flex align-items-center" small>
               <BiCurrentLocation className="me-2" />
-              Región: {data?.location.region}
+              Región: {data?.location.region || "Desconocida"}
             </Text>
+          </div>
+        </Grid>
+
+        <Grid
+          xs={24}
+          sm={12}
+          md={12}
+          lg={12}
+          xl={12}
+          className="flex-column"
+          style={{
+            transform: "translateY(2rem)",
+          }}
+        >
+          <div className="d-flex align-items-center justify-content-end w-100 text-end">
+            <BiCurrentLocation
+              className="me-2"
+              style={{ fontSize: "1.3rem" }}
+            />
+            <Text className="m-0 me-2" h4>
+              {data.country}
+            </Text>
+          </div>
+
+          <div className="w-100 text-end text-muted mb-5 mb-sm-0">
+            <Text className="m-0 me-1 text-capitalize">
+              {data.name}, {data.region || "Desconocido"}
+            </Text>
+            <Text className="m-0 me-1 text-capitalize d-inline-block">
+              {today}
+            </Text>
+            <Text className="m-0 me-2 d-inline-block">{DAY_MONTH},</Text>
+            <Text className="m-0 text-capitalize d-inline-block">{month}</Text>
+            <Text className="m-0 ms-2 text-capitalize d-inline-block">
+              {getCurrentTime()}
+            </Text>
+            <Text className="d-block text-capitalize m-0">
+              {weatherCondition}
+            </Text>
+
+            <label className="d-block text-muted">
+              Como detectar tu ubicación:
+            </label>
+            <Select
+              placeholder="Forma de ubicación"
+              className="mt-2"
+              width="100%"
+              onChange={(method) => setLocationMethod(method)}
+              value={locationMethod}
+            >
+              <Select.Option value="ip">Dirección IP</Select.Option>
+              <Select.Option value="geo">Geolocalización</Select.Option>
+              <Select.Option value="auto">Automático</Select.Option>
+            </Select>
           </div>
         </Grid>
       </Grid.Container>
 
-      <WheaterForecasts {...locationObj} />
+      <WheaterForecasts {...locationObj} locationMethod={locationMethod} />
 
       <footer className={css.footer}>
         <Text className="d-flex align-items-center text-muted me-3" small>

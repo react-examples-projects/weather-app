@@ -3,13 +3,13 @@ import cls from "classnames";
 import WeatherInfo from "./WeatherInfo";
 import useToggle from "../Hooks/useToggle";
 import { memo } from "react";
-import { getWeatherType } from "../Helpers/utils";
+import { formatDateToText, getWeatherType } from "../Helpers/utils";
 import { Text, Modal, Grid } from "@geist-ui/core";
 import { FiThermometer, FiEye } from "react-icons/fi";
 import { BiWater, BiWind } from "react-icons/bi";
 import {
   WiNightCloudy,
-  WiNightCloudyHigh,
+  WiNightCloudyHigh, 
   WiDayCloudy,
   WiDayCloudyHigh,
   WiMoonNew,
@@ -18,8 +18,8 @@ import {
 import WeatherHoursTempChart from "./Charts/WeatherHoursTempChart";
 
 function WeatherForecastItem({ forecastday }) {
-  console.log(forecastday);
   const [isOpen, toggleOpen] = useToggle();
+  const date = formatDateToText(forecastday.date)
 
   return (
     <>
@@ -28,13 +28,18 @@ function WeatherForecastItem({ forecastday }) {
           className={cls(css.weatherInfo, css.nohover)}
           style={{ marginLeft: "-1rem" }}
         >
-          <img src={forecastday.day.condition.icon} width="40" height="40" />
-          <Text className="m-0 d-flex align-items-center" p>
-            {forecastday.date}
+          <img src={forecastday.day.condition.icon} alt="Weather type" width="40" height="40" />
+          <Text className="first-upper m-0" p>
+            {date} 
           </Text>
         </div>
 
-        <div className={cls("w-100 d-flex align-items-center", css.weatherInfoList)}>
+        <div
+          className={cls(
+            "w-100 d-flex align-items-center",
+            css.weatherInfoList
+          )}
+        >
           <WeatherInfo
             text={getWeatherType(true, forecastday.day.condition.code)}
             icon={WiNightCloudy}
@@ -64,6 +69,7 @@ function WeatherForecastItem({ forecastday }) {
             classNameTooltip="ms-0 ms-sm-auto"
             tooltipText="Ver más detalles"
             text="Ver más"
+            style={{ cursor: "pointer" }}
             onClick={toggleOpen}
             icon={FiEye}
           />
@@ -92,13 +98,16 @@ function WeatherForecastItem({ forecastday }) {
             </Text>
             <Text className="d-flex align-items-center" small>
               <WiNightSleet className="me-1" />
-              Probabilidad diaria de lluvia: {forecastday.day.daily_chance_of_rain}%
+              Probabilidad diaria de lluvia:{" "}
+              {forecastday.day.daily_chance_of_rain}%
             </Text>
           </div>
 
           <WeatherHoursTempChart forecastday={forecastday} />
 
-          <Text className="mt-2" h4>Astronomía</Text>
+          <Text className="mt-2" h4>
+            Astronomía
+          </Text>
           <Grid.Container gap={2}>
             <Grid>
               <div className="d-flex align-items-center mb-1">

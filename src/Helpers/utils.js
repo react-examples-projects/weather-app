@@ -9,6 +9,9 @@ export const DAY_NUMBER = moment().day();
 export const MONTH_NUMBER = moment().month();
 export const DAY_MONTH = moment().date();
 
+export const formatDateToText = (date) =>
+  moment(date).format("dddd, D [de] MMMM");
+
 export const getDayWeek = () => {
   return moment.weekdays()[DAY_NUMBER];
 };
@@ -26,6 +29,18 @@ export const getWeatherType = (isDay, code) => {
   const weatherCondition = isDay
     ? weatherConditionObj?.day
     : weatherConditionObj?.night;
-    
+
   return weatherCondition;
+};
+
+export const getUserPosition = () => {
+  return new Promise((resolve, reject) => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((pos) => resolve(pos.coords));
+    } else {
+      reject(
+        new Error("La geolocalización no está soportada en este navegador")
+      );
+    }
+  });
 };

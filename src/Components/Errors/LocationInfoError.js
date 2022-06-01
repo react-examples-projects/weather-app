@@ -8,7 +8,7 @@ export default function LocationInfoError({ refetch }) {
       className="text-center container mt-5 d-flex flex-column align-content-center justify-content-center"
       style={{ maxWidth: "600px" }}
     >
-      <img
+      <img 
         alt="Ocurrió un error"
         src="./images/error.svg"
         className="w-100 d-block mx-auto"

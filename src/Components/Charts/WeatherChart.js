@@ -1,8 +1,10 @@
 import Chart from "react-apexcharts";
+import { Text } from "@geist-ui/core";
+import { formatDateToText } from "../../Helpers/utils";
 
 export default function WeatherChart({ data }) {
   const op = {
-    options: {
+    options: { 
       chart: {
         id: "basic-bar",
         stroke: {
@@ -18,7 +20,7 @@ export default function WeatherChart({ data }) {
       },
       xaxis: {
         name: "Fecha",
-        categories: data.map((forecast) => forecast.date),
+        categories: data.map((forecast) => formatDateToText(forecast.date)),
       },
     },
     series: [
@@ -31,6 +33,9 @@ export default function WeatherChart({ data }) {
 
   return (
     <div className="w-100">
+      <Text className="mb-0" h4>
+        Temperatura
+      </Text>
       <Chart
         options={op.options}
         series={op.series}

@@ -6,6 +6,7 @@ import {
   IP_LOOKUP,
   FORECAST,
 } from "../config";
+import { getUserPosition } from "./utils";
 
 const http = axios.create({
   baseURL: API_WEATHER_URL,
@@ -18,27 +19,66 @@ const http = axios.create({
 http.interceptors.request.use(async (config) => {
   const fullUrl = config.baseURL + config.url;
   const URL = new URLSearchParams(fullUrl);
-  const q = config.params?.q || URL.get("q");
+  // si es una request a timezone.json usamos una ip local para la busqueda
+  const isLocalGeo = config.url === "timezone.json";
+  const q = isLocalGeo ? null : config.params?.q || URL.get("q");
   let ip = sessionStorage.getItem("ip");
+  const getUserLocation = async () => {
+    try {
+      const coords = await getUserPosition();
+      return `${coords.latitude},${coords.longitude}`;
+    } catch {
+      return "auto:ip";
+    }
+  };
 
-  if (!ip) {
-    ip = await getPublicIp();
-    sessionStorage.setItem("ip", ip);
+  console.log({
+    fullUrl,
+    params: config.params,
+    ip,
+    q,
+    method: config.params?.locationMethod,
+  });
+
+  switch (config.params?.locationMethod) {
+    case "auto": {
+      ip = "auto:ip";
+      break;
+    }
+    case "ip": {
+      try {
+        ip = await getPublicIp();
+      } catch {
+        ip = await getUserLocation();
+      }
+      break;
+    }
+    case "geo": {
+      ip = await getUserLocation();
+      console.log("GEO CASE");
+      console.log({ fullUrl, ip });
+      break;
+    }
+    default:
+      ip = "auto:ip";
+      break;
   }
+  config.params = {
+    q: q === null ? ip : q,
+    lang: "es",
+  };
 
-  if (config.url === "ip.json") {
-    config.params = { q: ip };
-    return config;
-  }
-
-  if (!q) config.params = { q: ip };
-
+  delete config.params?.locationMethod;
   return config;
 });
 
 export async function getPublicIp() {
+  let ip = sessionStorage.getItem("ip");
+  if (!!ip) return ip;
+
   const res = await axios.get(API_PUBLIC_PROTOCOL);
-  const ip = res.data?.ip;
+  ip = res.data?.ip;
+  sessionStorage.setItem("ip", ip);
   return ip;
 }
 
@@ -53,19 +93,24 @@ export async function getWeather() {
 }
 
 export async function getForecast({ queryKey }) {
-  const [, { days, location }] = queryKey;
+  const [, { days, location, locationMethod }] = queryKey;
   const q = location ? `&q=${location}` : "";
-  let params = `?days=${days}` + q;
-  const res = await http.get(`${FORECAST}${params}`);
+  const params = `?days=${days}` + q;
+  const res = await http.get(`${FORECAST}${params}`, {
+    params: { locationMethod },
+  });
   return res.data;
 }
 
 export async function getWeatherInfo({ queryKey }) {
-  const [, q] = queryKey;
-  const p1 = http.get(IP_LOOKUP, { params: { q } });
-  const p2 = http.get(REALTIME_WEATHER, { params: { q } });
-
-  const res = (await Promise.all([p1, p2])).map((obj) => obj.data);
+  const [, q, locationMethod] = queryKey;
+  const p1 = await http.get(IP_LOOKUP, { params: { q, locationMethod } });
+  const p2 = http.get(REALTIME_WEATHER, { params: { q, locationMethod } });
+  const res = (await Promise.all([p1, p2])).map((obj) => {
+    if (obj.config.url === "timezone.json") return obj.data?.location;
+    return obj.data;
+  });
   const data = res.reduce((prev, current) => ({ ...prev, ...current }), {});
+
   return data;
 }

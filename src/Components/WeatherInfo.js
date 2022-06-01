@@ -11,7 +11,7 @@ export default function WeatherInfo({
   styleIcon,
   classNameTooltip,
   ...args
-}) {
+}) { 
   return (
     <Tooltip
       className={classNameTooltip}

@@ -2,14 +2,13 @@ import Chart from "react-apexcharts";
 import useMediaQuery from "../../Hooks/useMediaQuery";
 import { Text } from "@geist-ui/core";
 import { FiClock, FiThermometer } from "react-icons/fi";
-
+ 
 export default function WeatherHoursTempChart({ forecastday }) {
   const isMobile = useMediaQuery("(max-width:700px)");
   const hours = forecastday.hour.map(
     (timestamp) => timestamp.time.split(" ")[1]
   );
   const temps = forecastday.hour.map((timestamp) => timestamp.temp_f);
-  console.log({ hours });
   const op = {
     options: {
       chart: {
