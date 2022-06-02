@@ -31,15 +31,7 @@ http.interceptors.request.use(async (config) => {
       return "auto:ip";
     }
   };
-
-  console.log({
-    fullUrl,
-    params: config.params,
-    ip,
-    q,
-    method: config.params?.locationMethod,
-  });
-
+  
   switch (config.params?.locationMethod) {
     case "auto": {
       ip = "auto:ip";
@@ -55,8 +47,6 @@ http.interceptors.request.use(async (config) => {
     }
     case "geo": {
       ip = await getUserLocation();
-      console.log("GEO CASE");
-      console.log({ fullUrl, ip });
       break;
     }
     default:

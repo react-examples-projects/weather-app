@@ -10,7 +10,7 @@ import {
   BiRefresh,
 } from "react-icons/bi";
 import { useMemo } from "react";
-import { Text, Grid, Divider, Button, Spinner, Select } from "@geist-ui/core";
+import { Text, Grid, Button, Spinner, Select } from "@geist-ui/core";
 import Error from "./Error";
 import useWeather from "../Hooks/useWeather";
 import css from "../Styles/index.module.scss";
@@ -25,7 +25,6 @@ import TemperatureToggle from "../Components/TemperatureToggle";
 function Home() {
   const [location, setLocation] = useState("");
   const [locationMethod, setLocationMethod] = useState("geo");
-  const [tempMode, setTempMode] = useState("c");
   const locationObj = useMemo(() => ({ location, setLocation }), [location]);
   const {
     data,

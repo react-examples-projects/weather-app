@@ -4,16 +4,18 @@ import WeatherChart from "./Charts/WeatherChart";
 import WeatherForecastItem from "./WeatherForecastItem";
 import ForecastdayError from "./Errors/ForecastdayError";
 import css from "../Styles/index.module.scss";
-import { Text, Input, Grid, Button } from "@geist-ui/core";
+import useCities from "../Hooks/useCities";
+import { Text, Input, Grid, Button, AutoComplete } from "@geist-ui/core";
 import { useState, memo } from "react";
 
-function WeaterForecasts({ location, setLocation,locationMethod }) {
+function WeaterForecasts({ location, setLocation, locationMethod }) {
+  const { options, searchHandler } = useCities();
   const [locationTemp, setLocationTemp] = useState(location);
   const [days, setDays] = useState(3);
   const { data, isLoading, isError, refetch } = useForeCasts({
     days,
     location,
-    locationMethod
+    locationMethod,
   });
 
   if (isError) return <ForecastdayError refetch={refetch} />;
@@ -40,12 +42,20 @@ function WeaterForecasts({ location, setLocation,locationMethod }) {
           />
         </Grid>
         <Grid xs={16} sm={16} md={16} lg={16}>
-          <Input 
+          {/* <Input 
             label="Ciudad"
             placeholder="Madrid"
             value={locationTemp}
             onChange={(e) => setLocationTemp(e.target.value)}
             width="100%"
+          /> */}
+          <AutoComplete
+            label="Ciudad"
+            placeholder="Madrid"
+            width="100%"
+            onSearch={searchHandler}
+            onChange={(value) => setLocationTemp(value)}
+            options={options}
           />
         </Grid>
         <Grid xs={24} sm={24} md={24} lg={24}>
