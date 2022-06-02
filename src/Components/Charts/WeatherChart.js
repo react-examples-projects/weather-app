@@ -1,10 +1,12 @@
 import Chart from "react-apexcharts";
 import { Text } from "@geist-ui/core";
 import { formatDateToText } from "../../Helpers/utils";
+import { useGlobalStateContext } from "../../Context/GlobalStateContext";
 
 export default function WeatherChart({ data }) {
+  const { tempType } = useGlobalStateContext();
   const op = {
-    options: { 
+    options: {
       chart: {
         id: "basic-bar",
         stroke: {
@@ -26,7 +28,10 @@ export default function WeatherChart({ data }) {
     series: [
       {
         name: "Día",
-        data: data.map((forecast) => forecast.day.maxtemp_c),
+        data: data.map((forecast) => {
+          if (tempType === "c") return forecast.day.maxtemp_c;
+          return forecast.day.maxtemp_f;
+        }),
       },
     ],
   };
@@ -34,7 +39,7 @@ export default function WeatherChart({ data }) {
   return (
     <div className="w-100">
       <Text className="mb-0" h4>
-        Temperatura
+        Temperatura ({tempType.toUpperCase()}°)
       </Text>
       <Chart
         options={op.options}

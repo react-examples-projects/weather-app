@@ -2,24 +2,26 @@ import css from "../Styles/index.module.scss";
 import cls from "classnames";
 import WeatherInfo from "./WeatherInfo";
 import useToggle from "../Hooks/useToggle";
+import WeatherHoursTempChart from "./Charts/WeatherHoursTempChart";
 import { memo } from "react";
 import { formatDateToText, getWeatherType } from "../Helpers/utils";
+import { useGlobalStateContext } from "../Context/GlobalStateContext";
 import { Text, Modal, Grid } from "@geist-ui/core";
 import { FiThermometer, FiEye } from "react-icons/fi";
 import { BiWater, BiWind } from "react-icons/bi";
 import {
   WiNightCloudy,
-  WiNightCloudyHigh, 
+  WiNightCloudyHigh,
   WiDayCloudy,
   WiDayCloudyHigh,
   WiMoonNew,
   WiNightSleet,
 } from "react-icons/wi";
-import WeatherHoursTempChart from "./Charts/WeatherHoursTempChart";
 
 function WeatherForecastItem({ forecastday }) {
+  const { tempType } = useGlobalStateContext();
   const [isOpen, toggleOpen] = useToggle();
-  const date = formatDateToText(forecastday.date)
+  const date = formatDateToText(forecastday.date);
 
   return (
     <>
@@ -28,9 +30,14 @@ function WeatherForecastItem({ forecastday }) {
           className={cls(css.weatherInfo, css.nohover)}
           style={{ marginLeft: "-1rem" }}
         >
-          <img src={forecastday.day.condition.icon} alt="Weather type" width="40" height="40" />
+          <img
+            src={forecastday.day.condition.icon}
+            alt="Weather type"
+            width="40"
+            height="40"
+          />
           <Text className="first-upper m-0" p>
-            {date} 
+            {date}
           </Text>
         </div>
 
@@ -48,8 +55,12 @@ function WeatherForecastItem({ forecastday }) {
           />
 
           <WeatherInfo
-            text={`${forecastday.day.maxtemp_c}°`}
-            tooltipText="Temperatura del clima"
+            text={`${
+              tempType === "c"
+                ? forecastday.day.maxtemp_c
+                : forecastday.day.maxtemp_f
+            }°`}
+            tooltipText={`Temperatura del clima (${tempType.toUpperCase()}°)`}
             icon={FiThermometer}
           />
 

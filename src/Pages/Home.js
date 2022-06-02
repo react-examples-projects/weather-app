@@ -20,6 +20,7 @@ import AppLoader from "../Components/Loaders/AppLoader";
 import LocationInfoError from "../Components/Errors/LocationInfoError";
 import LocationInfoNotFoundError from "../Components/Errors/LocationInfoNotFoundError";
 import ToggleTheme from "../Components/ToggleTheme";
+import TemperatureToggle from "../Components/TemperatureToggle";
 
 function Home() {
   const [location, setLocation] = useState("");
@@ -51,56 +52,14 @@ function Home() {
       <ToggleTheme />
       <div className={cls(css.container)}>
         <Grid.Container>
-          <Grid xs={24} sm={12} md={12} lg={12} xl={12} className="flex-column">
+          <Grid xs={12} sm={12} md={12} lg={12} xl={12} className="flex-column">
             <div className="w-100 d-flex align-items-center">
               <img
                 alt="Current Temperature"
                 src={data?.current.condition.icon}
               />
-              <div className="position-relative d-inline-flex">
-                <Text className="d-flex align-items-center m-0 me-3 fw-bold" h2>
-                  {tempMode === "c"
-                    ? data?.current.temp_c
-                    : data?.current.temp_f}
-                  °
-                </Text>
-
-                <div
-                  className="d-flex flex-column justify-content-center align-items-center"
-                  style={{
-                    right: "-45px",
-                    top: "-40px",
-                  }}
-                >
-                  <button
-                    type="abort"
-                    className={cls(
-                      "btn-ghost d-flex justify-content-center align-items-center",
-                      {
-                        "text-muted": tempMode !== "c",
-                      }
-                    )}
-                    scale={0.8}
-                    onClick={() => setTempMode("c")}
-                  >
-                    °C
-                  </button>
-                  <Divider className="w-100" style={{ margin: "2px 0" }} />
-                  <button
-                    type="abort"
-                    className={cls(
-                      "btn-ghost d-flex justify-content-center align-items-center",
-                      {
-                        "text-muted": tempMode !== "f",
-                      }
-                    )}
-                    scale={0.8}
-                    onClick={() => setTempMode("f")}
-                  >
-                    °F
-                  </button>
-                </div>
-              </div>
+              
+              <TemperatureToggle data={data} />
             </div>
 
             <div className="d-flex flex-column w-100 text-muted mt-4 ms-3">
@@ -131,7 +90,7 @@ function Home() {
           </Grid>
 
           <Grid
-            xs={24}
+            xs={12}
             sm={12}
             md={12}
             lg={12}
