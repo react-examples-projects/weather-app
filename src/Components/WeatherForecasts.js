@@ -7,7 +7,6 @@ import css from "../Styles/index.module.scss";
 import useCities from "../Hooks/useCities";
 import {
   Text,
-  Input,
   Grid,
   Button,
   AutoComplete,
