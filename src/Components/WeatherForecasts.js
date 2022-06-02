@@ -5,19 +5,13 @@ import WeatherForecastItem from "./WeatherForecastItem";
 import ForecastdayError from "./Errors/ForecastdayError";
 import css from "../Styles/index.module.scss";
 import useCities from "../Hooks/useCities";
-import {
-  Text,
-  Grid,
-  Button,
-  AutoComplete,
-  Select,
-} from "@geist-ui/core";
+import { Text, Grid, Button, AutoComplete, Select } from "@geist-ui/core";
 import { useState, memo } from "react";
 
 function WeaterForecasts({ location, setLocation, locationMethod }) {
   const { options, searchHandler } = useCities();
   const [locationTemp, setLocationTemp] = useState(location);
-  const [days, setDays] = useState("0");
+  const [days, setDays] = useState("3");
   const { data, isLoading, isError, refetch } = useForeCasts({
     days,
     location,
@@ -35,26 +29,35 @@ function WeaterForecasts({ location, setLocation, locationMethod }) {
       </Text>
 
       <Grid.Container gap={1} className="mb-2">
-        <Grid xs={8} sm={8} md={8} lg={8}>
+        <Grid xs={12} sm={8} md={8} lg={8} className="flex-column">
+          <label
+            htmlFor="days"
+            className="text-muted d-block mb-1"
+            style={{ fontSize: "0.875em" }}
+          >
+            Días
+          </label>
           <Select
-            label="Días"
+            id="days"
             value={days}
-            onChange={(value) => {
-              value !== "0" && setDays(value);
-            }}
+            onChange={(value) => setDays(value)}
             width="100%"
           >
-            {days === "0" && (
-              <Select.Option value="0">Elige los días</Select.Option>
-            )}
             <Select.Option value="1">1</Select.Option>
             <Select.Option value="2">2</Select.Option>
             <Select.Option value="3">3</Select.Option>
           </Select>
         </Grid>
-        <Grid xs={16} sm={16} md={16} lg={16}>
+        <Grid xs={12} sm={16} md={16} lg={16} className="flex-column">
+          <label
+            htmlFor="city"
+            className="text-muted d-block mb-1"
+            style={{ fontSize: "0.875em" }}
+          >
+            Ciudad
+          </label>
           <AutoComplete
-            label="Ciudad"
+            id="city"
             placeholder="Madrid"
             width="100%"
             onSearch={searchHandler}
@@ -65,7 +68,7 @@ function WeaterForecasts({ location, setLocation, locationMethod }) {
         <Grid xs={24} sm={24} md={24} lg={24}>
           <Button
             type="success-light"
-            scale={0.8}
+            scale={0.6}
             onClick={() => setLocation(locationTemp)}
           >
             Buscar

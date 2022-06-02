@@ -2,6 +2,7 @@ import Chart from "react-apexcharts";
 import { Text } from "@geist-ui/core";
 import { formatDateToText } from "../../Helpers/utils";
 import { useGlobalStateContext } from "../../Context/GlobalStateContext";
+import { THEMES } from "../../config";
 
 export default function WeatherChart({ data }) {
   const { tempType, theme } = useGlobalStateContext();
@@ -9,15 +10,22 @@ export default function WeatherChart({ data }) {
     options: {
       theme: {
         mode: theme,
-        monochrome: {
-          enabled: false,
-          color: "#255aee",
-          shadeTo: "light",
-          shadeIntensity: 0.65,
+      },
+
+      tooltip: {
+        enabled: true,
+        x: {
+          show: false,
+        },
+        y: {
+          title: {
+            formatter: () => `Temperatura (${tempType.toUpperCase()}°)`,
+          },
         },
       },
       chart: {
-        id: "basic-bar",
+        id: "temperature",
+        background: theme === THEMES.DARK ? "#000" : "#fff",
         stroke: {
           curve: "smooth",
         },
@@ -25,6 +33,7 @@ export default function WeatherChart({ data }) {
         zoom: {
           enabled: false,
         },
+
         toolbar: {
           show: false,
         },

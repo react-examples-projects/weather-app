@@ -5,7 +5,7 @@ const FORECAST = "forecast.json";
 const API_PUBLIC_PROTOCOL = "https://jsonip.com/";
 const THEMES = {
   DARK: "dark",
-  LIGTH: "ligth",
+  LIGTH: "light",
 };
 
 export {

@@ -3,6 +3,7 @@ import useMediaQuery from "../../Hooks/useMediaQuery";
 import { Text, Button } from "@geist-ui/core";
 import { FiClock, FiThermometer, FiRepeat } from "react-icons/fi";
 import { useGlobalStateContext } from "../../Context/GlobalStateContext";
+import { THEMES } from "../../config";
 
 export default function WeatherHoursTempChart({ forecastday }) {
   const isMobile = useMediaQuery("(max-width:700px)");
@@ -18,15 +19,10 @@ export default function WeatherHoursTempChart({ forecastday }) {
     options: {
       theme: {
         mode: theme,
-        monochrome: {
-          enabled: false,
-          color: "#255aee",
-          shadeTo: "light",
-          shadeIntensity: 0.65,
-        },
       },
       chart: {
         id: "basic-bar",
+        background: theme === THEMES.DARK ? "#000" : "#fff",
         stroke: {
           curve: "smooth",
         },
