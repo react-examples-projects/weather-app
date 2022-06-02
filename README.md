@@ -15,7 +15,7 @@ Puede visitar este proyecto en la siguiente url:
 
 ## Comandos para iniciar el proyecto
 
-Primero debe instalar las dependecias de ambas partes el frontend y backend, para ello debe seguir los siguientes comandos.
+Primero debe instalar las dependecias del frontend, para ello debe seguir los siguientes comandos.
 
 
 
@@ -30,16 +30,6 @@ Iniciar el frontend debe ejecutar el siguiente comando.
 ```javascript
 npm start
 ```
-.
-
-## Recursos usados para este proyecto
-
-Ciertos recursos incluidos en este proyecto son de páginas públicas de imágenes.
-
-- https://storyset.com/
-
-- https://icon-icons.com/
-
 
 
 ## Desarrollador
