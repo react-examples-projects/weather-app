@@ -42,13 +42,6 @@ function WeaterForecasts({ location, setLocation, locationMethod }) {
           />
         </Grid>
         <Grid xs={16} sm={16} md={16} lg={16}>
-          {/* <Input 
-            label="Ciudad"
-            placeholder="Madrid"
-            value={locationTemp}
-            onChange={(e) => setLocationTemp(e.target.value)}
-            width="100%"
-          /> */}
           <AutoComplete
             label="Ciudad"
             placeholder="Madrid"

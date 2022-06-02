@@ -65,6 +65,18 @@
     }
 }
 
+.weatherDayDark {
+    background-color: #2a272796;
+
+    &:hover {
+        background: rgba(39, 37, 37, 0.486)
+    }
+
+    .weatherInfo:not(.nohover):hover {
+        background: #07070796 !important;
+    }
+}
+
 .weatherInfoList {
     @media screen and (max-width:650px) {
         flex-wrap: wrap;

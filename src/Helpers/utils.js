@@ -44,3 +44,11 @@ export const getUserPosition = () => {
     }
   });
 };
+
+export const saveTheme = (theme) => {
+  localStorage.setItem("theme", theme);
+};
+export const getTheme = () => localStorage.getItem("theme");
+
+export const saveTemperature = (temp) => localStorage.setItem("temp", temp);
+export const getTemperature = () => localStorage.getItem("temp");

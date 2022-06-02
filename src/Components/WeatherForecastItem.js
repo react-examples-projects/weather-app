@@ -9,6 +9,7 @@ import { useGlobalStateContext } from "../Context/GlobalStateContext";
 import { Text, Modal, Grid } from "@geist-ui/core";
 import { FiThermometer, FiEye } from "react-icons/fi";
 import { BiWater, BiWind } from "react-icons/bi";
+import { THEMES } from "../config";
 import {
   WiNightCloudy,
   WiNightCloudyHigh,
@@ -19,13 +20,17 @@ import {
 } from "react-icons/wi";
 
 function WeatherForecastItem({ forecastday }) {
-  const { tempType } = useGlobalStateContext();
+  const { tempType, theme } = useGlobalStateContext();
   const [isOpen, toggleOpen] = useToggle();
   const date = formatDateToText(forecastday.date);
 
   return (
     <>
-      <li className={css.weatherDay}>
+      <li
+        className={cls(css.weatherDay, {
+          [css.weatherDayDark]: theme === THEMES.DARK,
+        })}
+      >
         <div
           className={cls(css.weatherInfo, css.nohover)}
           style={{ marginLeft: "-1rem" }}
