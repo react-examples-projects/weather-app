@@ -12,8 +12,10 @@ export default function TemperatureToggle({ data }) {
       </Text>
 
       <div
-        className="d-flex flex-column justify-content-center align-items-center"
+        className="d-flex flex-column justify-content-center align-items-center p-1"
         style={{
+          border: "1px solid #eee",
+          borderRadius: "5px",
           right: "-45px",
           top: "-40px",
         }}

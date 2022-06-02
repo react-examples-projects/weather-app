@@ -36,7 +36,7 @@ export const getWeatherType = (isDay, code) => {
 export const getUserPosition = () => {
   return new Promise((resolve, reject) => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((pos) => resolve(pos.coords));
+      navigator.geolocation.getCurrentPosition((pos) => resolve(pos.coords), reject);
     } else {
       reject(
         new Error("La geolocalización no está soportada en este navegador")

@@ -4,9 +4,18 @@ import { formatDateToText } from "../../Helpers/utils";
 import { useGlobalStateContext } from "../../Context/GlobalStateContext";
 
 export default function WeatherChart({ data }) {
-  const { tempType } = useGlobalStateContext();
+  const { tempType, theme } = useGlobalStateContext();
   const op = {
     options: {
+      theme: {
+        mode: theme,
+        monochrome: {
+          enabled: false,
+          color: "#255aee",
+          shadeTo: "light",
+          shadeIntensity: 0.65,
+        },
+      },
       chart: {
         id: "basic-bar",
         stroke: {

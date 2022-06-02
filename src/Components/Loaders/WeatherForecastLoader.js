@@ -7,7 +7,7 @@ export default function WeatherForecastLoader() {
     <div className="w-100 mt-4 opacity-gradient ">
       <Skeleton
         width="150px"
-        height={28} 
+        height={28}
         containerClassName="w-100"
         className="mb-2"
       />
@@ -15,20 +15,21 @@ export default function WeatherForecastLoader() {
         <Grid xs={8} sm={8} md={8} lg={8}>
           <Skeleton height={36} containerClassName="w-100" className="mb-2" />
         </Grid>
-        <Grid xs={16} sm={16} md={16} lg={16}>
-          <Skeleton height={36} containerClassName="w-100" className="mb-2" />
+        <Grid xs={16} sm={16} md={16} lg={16} className="mb-0 mb-0">
+          <Skeleton height={36} containerClassName="w-100" className="mb-1" />
         </Grid>
 
         <Grid xs={24} sm={24} md={24} lg={24}>
-          <Skeleton width={150} height={36} containerClassName="mb-2 ms-auto" />
+          <Skeleton
+            width={150}
+            height={36}
+            containerClassName="mb-2"
+            style={{ transform: "translateY(-1rem)" }}
+          />
         </Grid>
       </Grid.Container>
 
-      <Skeleton
-        height={250}
-        containerClassName="w-100"
-        className="mb-2"
-      />
+      <Skeleton height={250} containerClassName="w-100" className="mb-2" />
 
       <div className={css.weatherDayLoader}>
         {Array(5)

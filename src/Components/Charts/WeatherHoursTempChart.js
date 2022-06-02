@@ -6,7 +6,7 @@ import { useGlobalStateContext } from "../../Context/GlobalStateContext";
 
 export default function WeatherHoursTempChart({ forecastday }) {
   const isMobile = useMediaQuery("(max-width:700px)");
-  const { tempType, toggleTemp } = useGlobalStateContext();
+  const { tempType, toggleTemp, theme } = useGlobalStateContext();
   const hours = forecastday.hour.map(
     (timestamp) => timestamp.time.split(" ")[1]
   );
@@ -16,6 +16,15 @@ export default function WeatherHoursTempChart({ forecastday }) {
   });
   const op = {
     options: {
+      theme: {
+        mode: theme,
+        monochrome: {
+          enabled: false,
+          color: "#255aee",
+          shadeTo: "light",
+          shadeIntensity: 0.65,
+        },
+      },
       chart: {
         id: "basic-bar",
         stroke: {
@@ -52,7 +61,6 @@ export default function WeatherHoursTempChart({ forecastday }) {
         <Button
           title="Alternar entre F/C"
           aria-label="Alternar entre F/C"
-
           className="p-2 ms-2 m-0"
           type="abort"
           icon={<FiRepeat />}
